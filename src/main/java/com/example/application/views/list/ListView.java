@@ -17,11 +17,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.context.annotation.Scope;
 
 import javax.annotation.security.PermitAll;
 import java.util.Collections;
 
-
+@org.springframework.stereotype.Component
+@Scope("prototype")
 @PageTitle("Contacts list")
 @Route(value = "", layout = MainLayout.class)
 @PermitAll
@@ -128,5 +130,37 @@ public class ListView extends VerticalLayout {
             form.setVisible(true);
             addClassName("editing");
         }
+    }
+
+    public Grid<Contact> getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid<Contact> grid) {
+        this.grid = grid;
+    }
+
+    public TextField getFilterTextField() {
+        return filterTextField;
+    }
+
+    public void setFilterTextField(TextField filterTextField) {
+        this.filterTextField = filterTextField;
+    }
+
+    public ContactForm getForm() {
+        return form;
+    }
+
+    public void setForm(ContactForm form) {
+        this.form = form;
+    }
+
+    public CrmService getService() {
+        return service;
+    }
+
+    public void setService(CrmService service) {
+        this.service = service;
     }
 }

@@ -21,11 +21,11 @@ import java.util.List;
 public class ContactForm extends FormLayout {
     Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
-    private TextField firstName = new TextField("firstName");
-    private TextField lastName = new TextField("lastName");
-    private EmailField email = new EmailField("Email");
-    private ComboBox<Status> status = new ComboBox<>("Status");
-    private ComboBox<Company> company = new ComboBox<>("Company");
+     TextField firstName = new TextField("firstName");
+     TextField lastName = new TextField("lastName");
+     EmailField email = new EmailField("Email");
+     ComboBox<Status> status = new ComboBox<>("Status");
+     ComboBox<Company> company = new ComboBox<>("Company");
 
      Button save = new Button("Save");
     private Button delete = new Button("Del");

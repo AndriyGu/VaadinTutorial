@@ -61,29 +61,64 @@ public class ContactFormTest {
     }
 
     @Test
-    public void saveEventHasCorrectValues(){
-        ContactForm contactForm = new ContactForm(companies, statuses);
+    public void tsaveEventHasCorrectValues() {
+        ContactForm form = new ContactForm(companies, statuses);
         Contact contact = new Contact();
-        contactForm.setContact(contact);
+        form.setContact(contact);
 
-        contactForm.getFirstName().setValue("John");
-        contactForm.getLastName().setValue("Doe");
-        contactForm.getEmail().setValue("Doe@");
-        contactForm.getCompany().setValue(company1);
-        contactForm.getStatus().setValue(status2);
+        form.firstName.setValue("John");
+        form.lastName.setValue("Doe");
+        form.company.setValue(company1);
+        form.email.setValue("john@doe.com");
+        form.status.setValue(status2);
 
-        String ds = contactForm.getFirstName().getValue();
-        String fff = contactForm.getLastName().getValue();
+        AtomicReference<Contact> savedContactRef = new AtomicReference<>(null);
+        form.addListener(ContactForm.SaveEvent.class, e -> {
+            savedContactRef.set(e.getContact());
+        });
+        form.save.click();
+        Contact savedContact = savedContactRef.get();
+
+        Assert.assertEquals("John", savedContact.getFirstName());
+        Assert.assertEquals("Doe", savedContact.getLastName());
+        Assert.assertEquals("john@doe.com", savedContact.getEmail());
+        Assert.assertEquals(company1, savedContact.getCompany());
+        Assert.assertEquals(status2, savedContact.getStatus());
+    }
+
+    @Test
+    public void saveEventHasCorrectValues(){
+        ContactForm form = new ContactForm(companies, statuses);
+        Contact contact = new Contact();
+        form.setContact(contact);
+
+        //form.firstName.setValue("John");
+        //form.lastName.setValue("Doe");
+        //form.company.setValue(company1);
+        //form.email.setValue("john@doe.com");
+        //form.status.setValue(status2);
+
+        form.firstName.setValue("John");
+        form.lastName.setValue("Doe");
+        form.company.setValue(company1);
+        form.email.setValue("Do@edoe.com");
+        form.status.setValue(status2);
+
+        String ds = form.firstName.getValue();
+        String fff = form.lastName.getValue();
+        String fdf = form.email.getValue();
+
+
 
         AtomicReference<Contact> savedContact = new AtomicReference<>(null);
-        contactForm.addListener(ContactForm.SaveEvent.class, e -> {savedContact.set(e.getContact());});
+        form.addListener(ContactForm.SaveEvent.class, e -> {savedContact.set(e.getContact());});
 
-        contactForm.save.click();
+        form.save.click();
         Contact saved = savedContact.get();
 
         Assert.assertEquals("John", saved.getFirstName());
         Assert.assertEquals("Doe",saved.getLastName());
-        Assert.assertEquals("Doe@",saved.getEmail());
+        Assert.assertEquals("Do@edoe.com",saved.getEmail());
         Assert.assertEquals(company1,saved.getCompany());
         Assert.assertEquals(status2,saved.getStatus());
     }
